@@ -71,18 +71,19 @@ code: |
   user_ask_role = "plaintiff"
   Do_you_have_a_claim_for_Small_Claims_Court
   set_progress(10)
-  Describe_the_reasons_for_the_claim
-  set_progress(20)
   plaintiffs.gather()
   defendants.gather()
-  set_progress(30)
-  Provide_your_personal_information
-  set_progress(40)
-  Provide_the_defendants_information
-  set_progress(60)
-  Provide_the_following_details_about_the_claim
-  set_progress(80)
+  set_progress(20)
   Previously_Filed_Civil_Action
+  set_progress(30)
+  Describe_the_reasons_for_the_claim
+  set_progress(50)
+  Provide_your_personal_information
+  Tell_me_about_yourself
+  set_progress(70)
+  Provide_the_defendants_information
+  Tell_me_about_the_defendant
+  Protection_of_servicemembers_against_default_judgement
   set_progress(90)
   interview_order_final__dc_84_affidavit_and_claim_sm = True
 ---
@@ -111,11 +112,11 @@ comment: |
 id: Small_Claims_Affidavit_and_Claim
 continue button field: final__dc_84_affidavit_and_claim_sm_intro
 question: |
-  Welcome to Michigan Legal Help’s Do-It-Yourself Small Claims Affidavit and Claim tool.
+  Welcome to Michigan Legal Help’s Do-It-Yourself Small Claims Affidavit and Claim tool
 subquestion: |
   This tool helps you prepare the forms you need to file a new Small Claims case in Michigan.
   
-  If you have an ongoing case related to this issue in another court, please gather the following information:
+  If you have an ongoing case related to this issue in another court, gather the following information:
   
   1. Court of the ongoing case
   2. Case Number
@@ -143,13 +144,13 @@ terms:
 ---
 id: Describe the reasons for the claim
 question: |
-  Describe the reasons for the claim.
+  Why do you want to file a complaint in Small Claims court?
 subquestion: |
   Please note that cases in which {someone caused harm on purpose} cannot usually be filed in small claims court. You may want to talk to a lawyer about filing this claim in District or Circuit Court.
 fields:
-  - "On what date did the issue occur?": date_claim_arose
+  - "When did it happen?": date_claim_arose
     datatype: date
-  - "The reasons for the claim are:": claim_reason_1
+  - "What happened between you and the defendant?:": claim_reason_1
     maxlength: 67
     hint: e.g., Landlord is withholding my security deposit
   - "Claim reason 2:": claim_reason_2
@@ -169,32 +170,32 @@ question: |
 subquestion: |
   Have you previously filed a civil action in court related to this issue? Select each of the following that apply.
 fields:
-  - "I have previously filed an action in court related for this claim.": has_prev_action
+  - "I have previously filed an action in court related to this claim": has_prev_action
     datatype: yesno
-  - "I filed the previous action in Small Claims Court.": has_this_court
+  - "I filed the previous action in Small Claims Court": has_this_court
     datatype: yesno
-  - "I filed the previous action in another court.": has_other_court
+  - "I filed the previous action in another court": has_other_court
     datatype: yesno
-  - "If you filed the previous action in another court please write the name of that court here:": other_court_name
+  - "What is the name of that court you previously filed in?": other_court_name
     maxlength: 74
-    required: False
+    show if: has_other_court
   - "What is the case number for the previous action?": prev_action_case_number
     maxlength: 44
-    required: False
+    show if: has_prev_action
   - "What is the name of the judge that was assigned to the previous action?":  prev_action_assigned_judge
     maxlength: 58
-    required: False
-  - "The previous action ongoing.": has_prev_action_remains
+    show if: has_prev_action
+  - "The previous action ongoing": has_prev_action_remains
     datatype: yesno
-  - "The previous action is no longer pending.": has_prev_action_no_longer_pending
+  - "The previous action is no longer pending": has_prev_action_no_longer_pending
     datatype: yesno
 continue button field: Previously_Filed_Civil_Action
 ---
 id: Provide your personal information
 question: |
-  Provide your personal contact information as the Plaintiff.
+  Provide your personal contact information as the Plaintiff
 subquestion: |
-  Please enter your Address, City, State, Zip Code and Telephone Number.
+  Enter your Address, City, State, Zip Code and Telephone Number.
 fields:
   - "Address:": plaintiff_address
     maxlength: 86
@@ -206,9 +207,9 @@ continue button field: Provide_your_personal_information
 ---
 id: Provide the defendant s information
 question: |
-  Provide the Defendant's contact information.
+  Provide the Defendant's contact information
 subquestion: |
-  Please enter the Defendant's Address, City, State, Zip Code and Telephone Number.
+  Enter the Defendant's Address, City, State, Zip Code and Telephone Number.
 fields:
   - "Address:": defendant_address
     maxlength: 86
@@ -218,65 +219,81 @@ fields:
     maxlength: 26
 continue button field: Provide_the_defendants_information
 ---
-id: Provide the following details about the claim
+id: Protection of servicemembers against default judgements
 question: |
-  Provide the following details about the claim.
+  Defendant's mental competency and military service history
 subquestion: |
   Select each item that applies in your case. By answering the questions below you are certifying that you have knowledge or belief about all the facts stated.
 fields:
-  - "I am the plaintiff.": has_i_am_the_plaintiff
+  - "I believe the defendant is mentally competent": has_mentally_competent
     datatype: yesno
-  - "I am the plaintiff's partner.": has_i_am_partner
+  - "I believe the defendant is NOT mentally competent": has_not_mentally_competent
     datatype: yesno
-  - "I am a full time employee.": has_i_am_full_time_employee
+  - "I believe the defendant is 18 years or older": has_18_years_old
     datatype: yesno
-  - "The plaintif is an individual.": has_plaintif_individual
+  - "I believe the defendant under the age of 18": has_not_18_years_old
     datatype: yesno
-  - "The plaintiff is a partnership.": has_plaintiff_partnership
+  - "I do not know whether the defendant has military service": has_do_not_know_military_service
     datatype: yesno
-  - "The plaintiff is a corporation.": has_plaintiff_corporation
+  - "I know the defendant does NOT have military service": has_not_military_service
     datatype: yesno
-  - "The plaintiff is a sole proprietor.": has_plaintiff_sole_proprietor
+  - "I know the defendant has military service": has_military_service
     datatype: yesno
-  - "I would like to include additional details about the plaintiff.": has_plaintiff_other
+continue button field: Protection_of_servicemembers_against_default_judgement
+---
+id: Tell me about youself
+question: |
+  Are you filing the claim for yourself?
+subquestion: |
+  Select each item that applies in your case. By answering the questions below you are certifying that you have knowledge or belief about all the facts stated.
+fields:
+  - "I am the plaintiff": has_i_am_the_plaintiff
+    datatype: yesno
+  - "I am the plaintiff's partner": has_i_am_partner
+    datatype: yesno
+  - "I am a full time employee": has_i_am_full_time_employee
+    datatype: yesno
+  - "The plaintif is an individual": has_plaintif_individual
+    datatype: yesno
+  - "The plaintiff is a partnership": has_plaintiff_partnership
+    datatype: yesno
+  - "The plaintiff is a corporation": has_plaintiff_corporation
+    datatype: yesno
+  - "The plaintiff is a sole proprietor": has_plaintiff_sole_proprietor
+    datatype: yesno
+  - "I would like to include additional details about the plaintiff": has_plaintiff_other
     datatype: yesno
   - "Additional details about the plaintiff:": plaintiff_other
     maxlength: 32
     required: False
-  - "The defendant is an individual.": has_defendant_individual
+continue button field: Tell_me_about_yourself
+---
+id: Tell me about the defendant
+question: |
+  Tell us more about the defendant
+subquestion: |
+  Select each item that applies in your case. By answering the questions below you are certifying that you have knowledge or belief about all the facts stated.
+fields:
+  - "The defendant is an individual": has_defendant_individual
     datatype: yesno
-  - "The defendant is a partnership.": has_defendant_partnership
+  - "The defendant is a partnership": has_defendant_partnership
     datatype: yesno
-  - "The defendant a corporation.": has_defendant_corporation
+  - "The defendant a corporation": has_defendant_corporation
     datatype: yesno
-  - "The defendant is a sole proprietor.": has_defendant_sole_proprietor
+  - "The defendant is a sole proprietor": has_defendant_sole_proprietor
     datatype: yesno
-  - "I would like to include additional details about the defendant.": has_defendant_other
+  - "I would like to include additional details about the defendant": has_defendant_other
     datatype: yesno
   - "Additional details about the defendant:": defendant_other
     maxlength: 32
     required: False
-  - "I believe the defendant is mentally competent.": has_mentally_competent
-    datatype: yesno
-  - "I believe the defendant is NOT mentally competent.": has_not_mentally_competent
-    datatype: yesno
-  - "I believe the defendant is 18 years or older.": has_18_years_old
-    datatype: yesno
-  - "I believe the defendant under the age of 18.": has_not_18_years_old
-    datatype: yesno
-  - "I do not know whether the defendant has military service.": has_do_not_know_military_service
-    datatype: yesno
-  - "I know the defendant does NOT have military service.": has_not_military_service
-    datatype: yesno
-  - "I know the defendant has military service.": has_military_service
-    datatype: yesno
-continue button field: Provide_the_following_details_about_the_claim
+continue button field: Tell_me_about_the_defendant
 ---
 id: preview final__dc_84_affidavit_and_claim_sm
 question: |
   Preview your form before you sign it
 subquestion: |
-  Here is a preview of the form you will sign on the next page.   
+  Here is a preview of the form you will sign on the next page.  
   
   ${ al_court_bundle.as_pdf(key='preview') }
 
